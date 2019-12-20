@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  related_link: MyString
+  description: MyText
+  title: MyString
+  sub_title: MyString
+  current_price: 1.5
+  previous_price: 1.5
+
+two:
+  related_link: MyString
+  description: MyText
+  title: MyString
+  sub_title: MyString
+  current_price: 1.5
+  previous_price: 1.5
