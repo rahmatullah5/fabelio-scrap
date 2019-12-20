@@ -8,7 +8,7 @@
       <dt class="label label-default"><%= model_class.human_attribute_name(:related_link) %></dt>
       <dd><pre class="prettyprint"><%= @product.related_link %></pre></dd>
       <dt class="label label-default"><%= model_class.human_attribute_name(:description) %></dt>
-      <dd><pre class="prettyprint"><%= @product.description %></pre></dd>
+      <dd><pre class="prettyprint"><%= @product.description.html_safe %></pre></dd>
       <dt class="label label-default"><%= model_class.human_attribute_name(:title) %></dt>
       <dd><pre class="prettyprint"><%= @product.title %></pre></dd>
       <dt class="label label-default"><%= model_class.human_attribute_name(:sub_title) %></dt>
