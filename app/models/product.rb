@@ -1,22 +1,30 @@
 class Product < ApplicationRecord
   has_many :product_images
-  before_create :fetch_related_link_data, :initialize_product
+  before_create :initialize_product
+  validate :fetch_related_link_data
   validates :related_link, presence: true, format: { with: /(https?:\/\/(.+?\.)?fabelio\.com(\/[A-Za-z0-9\-\._~:\/\?#\[\]@!$&'\(\)\*\+,;\=]*)?)/i, message: "please enter keywords in correct format"}
   attr_accessor :temporary_document_container
+  validates :title, :current_price, presence: true
   
   private
   def fetch_related_link_data
-    require 'open-uri'
-    self.temporary_document_container = Nokogiri::HTML(open(related_link.strip))
+    begin
+      require 'open-uri'
+      self.temporary_document_container = Nokogiri::HTML(open(related_link.strip))
+    rescue => exception
+      errors.add(:related_link, 'cannot be fetched')
+    end
   end
 
   def initialize_product
-    init_title
-    init_sub_title
-    init_current_price
-    init_previous_price
-    init_description
-    init_product_images
+    ActiveRecord::Base.transaction do
+      init_title
+      init_sub_title
+      init_current_price
+      init_previous_price
+      init_description
+      init_product_images
+    end
   end
 
   def init_title
@@ -40,7 +48,7 @@ class Product < ApplicationRecord
   end
 
   def init_product_images
-    self.product_images.new(url: temporary_document_container.search('.loader img')[0].values[0])
+    self.product_images.new(url: temporary_document_container.search('.loader img')[0].try(:values).try([0]))
   end
 
 end
