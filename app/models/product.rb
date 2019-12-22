@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-  has_many :product_image
+  has_many :product_images
   before_create :fetch_related_link_data, :initialize_product
 
   attr_accessor :temporary_document_container
@@ -41,8 +41,7 @@ class Product < ApplicationRecord
   end
 
   def init_product_images
-    binding.pry
-    self.product_images = temporary_document_container.search('.fotorama__wrap').to_html
+    self.product_images.new(url: temporary_document_container.search('.loader img')[0].values[0])
   end
 
 end
