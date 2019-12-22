@@ -1,14 +1,13 @@
 class Product < ApplicationRecord
   has_many :product_images
   before_create :fetch_related_link_data, :initialize_product
-  validates :related_link, presence: true
+  validates :related_link, presence: true, format: { with: /(https?:\/\/(.+?\.)?fabelio\.com(\/[A-Za-z0-9\-\._~:\/\?#\[\]@!$&'\(\)\*\+,;\=]*)?)/i, message: "please enter keywords in correct format"}
   attr_accessor :temporary_document_container
   
   private
   def fetch_related_link_data
     require 'open-uri'
     self.temporary_document_container = Nokogiri::HTML(open(related_link.strip))
-    # binding.pry
   end
 
   def initialize_product
@@ -45,5 +44,3 @@ class Product < ApplicationRecord
   end
 
 end
-# a[0].children.children.children.children.children.to_a[0].text.gsub(/([^0-9])/, '')
-# temporary_document_container.search '.product-options-bottom'
