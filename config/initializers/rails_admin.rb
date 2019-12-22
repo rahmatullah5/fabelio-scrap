@@ -26,13 +26,24 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory
-    new
+    new do 
+      except ['Admin']  
+    end 
     export
-    bulk_delete
+    bulk_delete do 
+      except ['Admin']
+    end 
     show
-    edit
-    delete
-    show_in_app
+    edit do 
+      except ['Admin']
+    end 
+    delete do 
+      except ['Admin']
+    end 
+    show_in_app do 
+      except ['Admin']
+    end 
+
 
     ## With an audit adapter, you can add:
     # history_index
