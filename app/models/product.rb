@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
   has_many :product_images
   before_create :fetch_related_link_data, :initialize_product
-
+  validates :related_link, presence: true
   attr_accessor :temporary_document_container
   
   private
