@@ -8,7 +8,7 @@
       <dt class="label label-default"><%= model_class.human_attribute_name(:related_link) %></dt>
       <dd><pre class="prettyprint"><%= @product.related_link %></pre></dd>
       <dt class="label label-default"><%= model_class.human_attribute_name(:description) %></dt>
-      <dd><pre class="prettyprint"><%= @product.description.html_safe %></pre></dd>
+      <dd><pre class="prettyprint"><%= @product.description.try(:html_safe) %></pre></dd>
       <dt class="label label-default"><%= model_class.human_attribute_name(:title) %></dt>
       <dd><pre class="prettyprint"><%= @product.title %></pre></dd>
       <dt class="label label-default"><%= model_class.human_attribute_name(:sub_title) %></dt>
@@ -17,15 +17,20 @@
       <dd><pre class="prettyprint"><%= @product.current_price %></pre></dd>
       <dt class="label label-default"><%= model_class.human_attribute_name(:previous_price) %></dt>
       <dd><pre class="prettyprint"><%= @product.previous_price %></pre></dd>
+      <dt class="label label-default"><%= model_class.human_attribute_name(:product_images) %></dt>
+      <dd>
+        <% @product.product_images.each do |product_image|%>
+          <%= image_tag product_image.url %>
+        <% end %>
+      </dd>
   </dl>
 </div>
 
 <div class="form-group">
   <%= link_to t('.back', default: t("helpers.links.back")),
               products_path, class: 'btn btn-default'  %>
-  <%= link_to t('.edit', default: t("helpers.links.edit")),
-              edit_product_path(@product), class: 'btn btn-default' %>
-  <%= link_to t('.destroy', default: t("helpers.links.destroy")),
+  
+  <%= button_to  t('.destroy', default: t("helpers.links.destroy")),
               product_path(@product),
               method: 'delete',
               data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) },
